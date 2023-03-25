@@ -15,8 +15,15 @@
     <description>EquipmentApp</description>
     <properties>
         <java.version>17</java.version>
-        <vaadin.version>24.0.0</vaadin.version>
+        <vaadin.version>24.0.2</vaadin.version>
     </properties>
+    <repositories>
+        <!-- Vaadin Maven repository -->
+        <repository>
+            <id>Vaadin Directory</id>
+            <url>https://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -29,6 +36,16 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.crudui</groupId>
+            <artifactId>crudui</artifactId>
+            <version>7.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.reportui</groupId>
+            <artifactId>report-ui</artifactId>
+            <version>4.0.2</version>
         </dependency>
 
         <dependency>
