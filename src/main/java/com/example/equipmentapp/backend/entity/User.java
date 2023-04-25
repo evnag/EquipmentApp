@@ -20,6 +20,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
