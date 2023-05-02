@@ -29,7 +29,7 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
-        H1 logo = new H1("Admin panel");
+        H1 logo = new H1("EquipmentApp CRM");
         logo.addClassName("logo");
         HorizontalLayout header;
 

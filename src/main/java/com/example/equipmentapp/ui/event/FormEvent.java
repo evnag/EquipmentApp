@@ -1,4 +1,4 @@
-package com.example.equipmentapp.backend.event;
+package com.example.equipmentapp.ui.event;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.formlayout.FormLayout;

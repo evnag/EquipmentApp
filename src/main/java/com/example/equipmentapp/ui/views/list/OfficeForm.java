@@ -1,7 +1,7 @@
 package com.example.equipmentapp.ui.views.list;
 
 import com.example.equipmentapp.backend.entity.Office;
-import com.example.equipmentapp.backend.event.FormEvent;
+import com.example.equipmentapp.ui.event.FormEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
