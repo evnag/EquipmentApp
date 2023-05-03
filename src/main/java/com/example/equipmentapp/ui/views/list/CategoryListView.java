@@ -1,7 +1,7 @@
 package com.example.equipmentapp.ui.views.list;
 
 import com.example.equipmentapp.backend.entity.Category;
-import com.example.equipmentapp.backend.event.FormEvent;
+import com.example.equipmentapp.ui.event.FormEvent;
 import com.example.equipmentapp.backend.service.CategoryService;
 import com.example.equipmentapp.ui.MainLayout;
 import com.vaadin.flow.component.button.Button;

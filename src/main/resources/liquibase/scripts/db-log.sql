@@ -116,3 +116,7 @@ alter table authorities
     add constraint authorities_uk
         unique (username, authority);
 
+-- changeSet asorov:4
+alter table transaction
+    alter column software_id drop not null;
+

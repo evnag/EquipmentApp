@@ -29,4 +29,8 @@ public class Office {
 
     @OneToMany(mappedBy = "officeId", fetch = FetchType.EAGER)
     private List<Unit> units;
+
+    public String getFullData() {
+        return this.buildingNumber + "-" + this.officeNumber;
+    }
 }

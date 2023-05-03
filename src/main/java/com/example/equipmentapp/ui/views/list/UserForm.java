@@ -2,7 +2,7 @@ package com.example.equipmentapp.ui.views.list;
 
 import com.example.equipmentapp.backend.entity.Employee;
 import com.example.equipmentapp.backend.entity.User;
-import com.example.equipmentapp.backend.event.FormEvent;
+import com.example.equipmentapp.ui.event.FormEvent;
 import com.example.equipmentapp.backend.repository.AuthorityRepository;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -43,6 +43,8 @@ public class UserForm extends FormLayout {
         binder.bindInstanceFields(this);
         employeeId.setItems(employees);
         employeeId.setItemLabelGenerator(Employee::getLastName);
+        username.setEnabled(false);
+        password.setEnabled(false);
 
 
         add(

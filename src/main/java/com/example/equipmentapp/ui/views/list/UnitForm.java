@@ -1,10 +1,7 @@
 package com.example.equipmentapp.ui.views.list;
 
-import com.example.equipmentapp.backend.entity.Category;
-import com.example.equipmentapp.backend.entity.Employee;
-import com.example.equipmentapp.backend.entity.Office;
-import com.example.equipmentapp.backend.entity.Unit;
-import com.example.equipmentapp.backend.event.FormEvent;
+import com.example.equipmentapp.backend.entity.*;
+import com.example.equipmentapp.ui.event.FormEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
@@ -48,7 +45,7 @@ public class UnitForm extends FormLayout {
         categoryId.setItems(categories);
         categoryId.setItemLabelGenerator(Category::getName);
         officeId.setItems(offices);
-        officeId.setItemLabelGenerator(Office::getDescription);
+        officeId.setItemLabelGenerator(Office::getFullData);
         employeeId.setItems(employees);
         employeeId.setItemLabelGenerator(Employee::getLastName);
 
@@ -91,38 +88,6 @@ public class UnitForm extends FormLayout {
         }
     }
 
-    // Events
-//    public static abstract class UnitFormEvent extends ComponentEvent<UnitForm> {
-//        private Unit unit;
-//
-//        protected UnitFormEvent(UnitForm source, Unit unit) {
-//            super(source, false);
-//            this.unit = unit;
-//        }
-//
-//        public Unit getUnit() {
-//            return unit;
-//        }
-//    }
-//
-//    public static class SaveEvent extends UnitFormEvent {
-//        SaveEvent(UnitForm source, Unit unit) {
-//            super(source, unit);
-//        }
-//    }
-//
-//    public static class DeleteEvent extends UnitFormEvent {
-//        DeleteEvent(UnitForm source, Unit unit) {
-//            super(source, unit);
-//        }
-//    }
-//
-//    public static class CloseEvent extends UnitFormEvent {
-//        CloseEvent(UnitForm source) {
-//            super(source, null);
-//        }
-//    }
-
     public Registration addDeleteListener(ComponentEventListener<FormEvent.DeleteEvent> listener) {
         return addListener(FormEvent.DeleteEvent.class, listener);
     }
@@ -130,6 +95,7 @@ public class UnitForm extends FormLayout {
     public Registration addSaveListener(ComponentEventListener<FormEvent.SaveEvent> listener) {
         return addListener(FormEvent.SaveEvent.class, listener);
     }
+
     public Registration addCloseListener(ComponentEventListener<FormEvent.CloseEvent> listener) {
         return addListener(FormEvent.CloseEvent.class, listener);
     }

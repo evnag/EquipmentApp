@@ -7,10 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UnitRepository extends JpaRepository<Unit, Long> {
     @Query("select u from Unit u " +
             "where lower(u.model) like lower(concat('%', :searchText, '%') ) ")
     List<Unit> search(@Param("searchText") String searchText);
+
+    @Query("select u from Unit u where u.id=:id")
+    Optional<Unit> getUnitById(Long id);
 }

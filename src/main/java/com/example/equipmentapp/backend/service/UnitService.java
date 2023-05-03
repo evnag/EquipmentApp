@@ -1,6 +1,7 @@
 package com.example.equipmentapp.backend.service;
 
 import com.example.equipmentapp.backend.entity.Unit;
+import com.example.equipmentapp.backend.exception.UnitNotFoundException;
 import com.example.equipmentapp.backend.repository.UnitRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public class UnitService {
 
-    private UnitRepository unitRepository;
+    private final UnitRepository unitRepository;
 
     public UnitService(UnitRepository unitRepository) {
         this.unitRepository = unitRepository;
@@ -40,5 +41,9 @@ public class UnitService {
 
     public void delete(Unit unit) {
         unitRepository.delete(unit);
+    }
+
+    public Unit getById(Long unitId) {
+        return unitRepository.getUnitById(unitId).orElseThrow(() -> new UnitNotFoundException(unitId));
     }
 }

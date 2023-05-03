@@ -1,16 +1,13 @@
 package com.example.equipmentapp.ui.views.list;
 
-import com.example.equipmentapp.backend.entity.Category;
-import com.example.equipmentapp.backend.entity.Employee;
-import com.example.equipmentapp.backend.entity.Office;
-import com.example.equipmentapp.backend.entity.Unit;
-import com.example.equipmentapp.backend.event.FormEvent;
-import com.example.equipmentapp.backend.service.CategoryService;
-import com.example.equipmentapp.backend.service.EmployeeService;
-import com.example.equipmentapp.backend.service.OfficeService;
-import com.example.equipmentapp.backend.service.UnitService;
+import com.example.equipmentapp.backend.entity.*;
+import com.example.equipmentapp.ui.event.FormEvent;
+import com.example.equipmentapp.backend.exception.UnitNotFoundException;
+import com.example.equipmentapp.backend.service.*;
 import com.example.equipmentapp.ui.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -22,6 +19,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
+import java.time.LocalDate;
+import java.util.List;
+
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Units | EquipmentApp CRM")
@@ -29,15 +29,20 @@ import jakarta.annotation.security.RolesAllowed;
 public class UnitListView extends VerticalLayout {
 
     private final UnitForm form;
-    Grid<Unit> grid = new Grid<>(Unit.class);
-    TextField filter = new TextField();
     private final UnitService unitService;
+    private final TransactionService transactionService;
+    Grid<Unit> grid = new Grid<>(Unit.class);
+    Grid<Transaction> gridTransaction = new Grid<>(Transaction.class);
+    TextField filter = new TextField();
+    Dialog dialog = new Dialog();
 
     public UnitListView(UnitService unitService,
                         CategoryService categoryService,
                         OfficeService officeService,
-                        EmployeeService employeeService) {
+                        EmployeeService employeeService,
+                        TransactionService transactionService) {
         this.unitService = unitService;
+        this.transactionService = transactionService;
         addClassName("list-view");
         setSizeFull();
         configureGrid();
@@ -65,14 +70,18 @@ public class UnitListView extends VerticalLayout {
     }
 
     private void saveUnit(FormEvent.SaveEvent event) {
-        unitService.save((Unit) event.getObject());
+        Unit unit = (Unit) event.getObject();
+        unitService.save(unit);
+        transactionService.save(addTransaction(unit));
         updateList();
+        updateTransactionList();
         closeEditor();
     }
 
     private void deleteUnit(FormEvent.DeleteEvent event) {
         unitService.delete((Unit) event.getObject());
         updateList();
+        updateTransactionList();
         closeEditor();
     }
 
@@ -83,10 +92,37 @@ public class UnitListView extends VerticalLayout {
         filter.addValueChangeListener(e -> updateList());
 
         Button addUnitButton = new Button("Добавить", click -> addUnit());
+        Button dialogButton = new Button("История", e -> dialog.open());
+        dialogButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 
-        HorizontalLayout toolbar = new HorizontalLayout(filter, addUnitButton);
+        configuredDialog();
+
+        HorizontalLayout toolbar = new HorizontalLayout(filter, addUnitButton, dialogButton, dialog);
         toolbar.addClassName("toolbar");
         return toolbar;
+    }
+
+    private void configuredDialog() {
+        Button cancelButton = new Button("Cancel", e -> dialog.close());
+        dialog.setHeaderTitle("История");
+        dialog.setSizeFull();
+        dialog.getFooter().add(cancelButton);
+
+        VerticalLayout dialogLayout = createDialogLayout(transactionService.findAll());
+        dialog.add(dialogLayout);
+    }
+
+    private VerticalLayout createDialogLayout(List<Transaction> transactions) {
+        gridTransaction.addClassName("grid");
+        gridTransaction.setColumns("id", "action", "date", "asset");
+        gridTransaction.getColumns().forEach((c -> c.setAutoWidth(true)));
+
+        gridTransaction.setItems(transactions);
+        return new VerticalLayout(gridTransaction);
+    }
+
+    private void updateTransactionList() {
+        gridTransaction.setItems(transactionService.findAll());
     }
 
     private void configureGrid() {
@@ -117,7 +153,7 @@ public class UnitListView extends VerticalLayout {
         }).setHeader("Сотрудник").setSortable(true);
         grid.addColumn(unit -> {
             Office office = unit.getOfficeId();
-            return office == null ? "-" : office.getOfficeNumber();
+            return office == null ? "-" : office.getFullData();
         }).setHeader("Кабинет").setSortable(true);
 
         grid.getColumns().forEach((c -> c.setAutoWidth(true)));
@@ -148,5 +184,18 @@ public class UnitListView extends VerticalLayout {
 
     private void updateList() {
         grid.setItems(unitService.findAll(filter.getValue()));
+    }
+
+    public Transaction addTransaction(Unit unit) {
+        Transaction transaction = new Transaction();
+        if (unitService.getById(unit.getId()) != null) {
+            transaction.setUnitId(unit);
+            transaction.setDate(LocalDate.now());
+            transaction.setAction("New transaction");
+            transaction.setAsset(unit.getDescription());
+            return transaction;
+        } else {
+            throw new UnitNotFoundException(unit.getId());
+        }
     }
 }

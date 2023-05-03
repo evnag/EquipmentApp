@@ -4,7 +4,7 @@ import com.example.equipmentapp.backend.configuration.SecurityService;
 import com.example.equipmentapp.backend.entity.Authority;
 import com.example.equipmentapp.backend.entity.Employee;
 import com.example.equipmentapp.backend.entity.User;
-import com.example.equipmentapp.backend.event.FormEvent;
+import com.example.equipmentapp.ui.event.FormEvent;
 import com.example.equipmentapp.backend.repository.AuthorityRepository;
 import com.example.equipmentapp.backend.service.EmployeeService;
 import com.example.equipmentapp.backend.service.UserService;
@@ -114,6 +114,7 @@ public class UserListView extends VerticalLayout {
             closeEditor();
         } else {
             userForm.setUser(user);
+            userForm.password.setValue(user.getPassword());
             userForm.authority.setValue(setUserAuthority(user));
             userForm.setVisible(true);
             addClassName("editing");
