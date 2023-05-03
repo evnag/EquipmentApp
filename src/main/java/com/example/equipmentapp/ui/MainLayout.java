@@ -1,10 +1,7 @@
 package com.example.equipmentapp.ui;
 
 import com.example.equipmentapp.backend.configuration.SecurityService;
-import com.example.equipmentapp.ui.views.list.CategoryListView;
-import com.example.equipmentapp.ui.views.list.OfficeListView;
-import com.example.equipmentapp.ui.views.list.UnitListView;
-import com.example.equipmentapp.ui.views.list.UserListView;
+import com.example.equipmentapp.ui.views.list.*;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -50,16 +47,19 @@ public class MainLayout extends AppLayout {
 
     private void createDrawer() {
         RouterLink unitListLink = new RouterLink("Оборудование", UnitListView.class);
-        unitListLink.setHighlightCondition(HighlightConditions.sameLocation());
         RouterLink officeListLink = new RouterLink("Кабинеты", OfficeListView.class);
         RouterLink categoryListLink = new RouterLink("Категории", CategoryListView.class);
         RouterLink userListLink = new RouterLink("Пользователи", UserListView.class);
+        RouterLink reportDesigner = new RouterLink("Отчеты", ReportDesignerView.class);
+
+        unitListLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
                 unitListLink,
                 officeListLink,
                 categoryListLink,
-                userListLink
+                userListLink,
+                reportDesigner
         ));
     }
 

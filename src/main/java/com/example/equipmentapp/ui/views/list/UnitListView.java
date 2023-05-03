@@ -29,12 +29,12 @@ import java.util.List;
 public class UnitListView extends VerticalLayout {
 
     private final UnitForm form;
+    private final UnitService unitService;
+    private final TransactionService transactionService;
     Grid<Unit> grid = new Grid<>(Unit.class);
     Grid<Transaction> gridTransaction = new Grid<>(Transaction.class);
     TextField filter = new TextField();
     Dialog dialog = new Dialog();
-    private final UnitService unitService;
-    private final TransactionService transactionService;
 
     public UnitListView(UnitService unitService,
                         CategoryService categoryService,
@@ -92,7 +92,6 @@ public class UnitListView extends VerticalLayout {
         filter.addValueChangeListener(e -> updateList());
 
         Button addUnitButton = new Button("Добавить", click -> addUnit());
-
         Button dialogButton = new Button("История", e -> dialog.open());
         dialogButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 
