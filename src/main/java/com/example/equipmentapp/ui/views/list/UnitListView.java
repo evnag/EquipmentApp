@@ -30,6 +30,7 @@ public class UnitListView extends VerticalLayout {
 
     private final UnitForm form;
     Grid<Unit> grid = new Grid<>(Unit.class);
+    Grid<Transaction> gridTransaction = new Grid<>(Transaction.class);
     TextField filter = new TextField();
     Dialog dialog = new Dialog();
     private final UnitService unitService;
@@ -73,12 +74,14 @@ public class UnitListView extends VerticalLayout {
         unitService.save(unit);
         transactionService.save(addTransaction(unit));
         updateList();
+        updateTransactionList();
         closeEditor();
     }
 
     private void deleteUnit(FormEvent.DeleteEvent event) {
         unitService.delete((Unit) event.getObject());
         updateList();
+        updateTransactionList();
         closeEditor();
     }
 
@@ -111,14 +114,16 @@ public class UnitListView extends VerticalLayout {
     }
 
     private VerticalLayout createDialogLayout(List<Transaction> transactions) {
-        Grid<Transaction> grid = new Grid<>(Transaction.class);
-        grid.addClassName("grid");
-        grid.setColumns("id", "action", "date", "asset");
-        grid.getColumns().forEach((c -> c.setAutoWidth(true)));
+        gridTransaction.addClassName("grid");
+        gridTransaction.setColumns("id", "action", "date", "asset");
+        gridTransaction.getColumns().forEach((c -> c.setAutoWidth(true)));
 
-        grid.setItems(transactions);
+        gridTransaction.setItems(transactions);
+        return new VerticalLayout(gridTransaction);
+    }
 
-        return new VerticalLayout(grid);
+    private void updateTransactionList() {
+        gridTransaction.setItems(transactionService.findAll());
     }
 
     private void configureGrid() {
@@ -188,7 +193,7 @@ public class UnitListView extends VerticalLayout {
             transaction.setUnitId(unit);
             transaction.setDate(LocalDate.now());
             transaction.setAction("New transaction");
-            transaction.setAsset("Test asset");
+            transaction.setAsset(unit.getDescription());
             return transaction;
         } else {
             throw new UnitNotFoundException(unit.getId());
