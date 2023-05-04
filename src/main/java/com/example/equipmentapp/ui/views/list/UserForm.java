@@ -43,8 +43,8 @@ public class UserForm extends FormLayout {
         binder.bindInstanceFields(this);
         employeeId.setItems(employees);
         employeeId.setItemLabelGenerator(Employee::getLastName);
-        username.setEnabled(false);
-        password.setEnabled(false);
+//        username.setEnabled(false);
+//        password.setEnabled(false);
 
 
         add(

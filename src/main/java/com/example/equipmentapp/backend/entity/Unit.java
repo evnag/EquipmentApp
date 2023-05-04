@@ -42,7 +42,7 @@ public class Unit {
     @ManyToOne
     @JoinColumn(name = "office_id")
     private Office officeId;
-    @OneToMany(mappedBy = "unitId")
+    @OneToMany(mappedBy = "unitId", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
 }
