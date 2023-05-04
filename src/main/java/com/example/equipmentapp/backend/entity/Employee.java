@@ -1,6 +1,6 @@
 package com.example.equipmentapp.backend.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,8 +29,8 @@ public class Employee {
     @Column(name = "employee_position")
     private String position;
 
-    @OneToMany(mappedBy = "employeeId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employeeId")
     private List<Unit> units;
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id")
     private List<User> userId;
 }

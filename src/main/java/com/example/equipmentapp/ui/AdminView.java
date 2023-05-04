@@ -2,7 +2,7 @@ package com.example.equipmentapp.ui;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.RolesAllowed;
+import javax.annotation.security.RolesAllowed;
 
 @Route(value = "admin")
 @RolesAllowed("ADMIN")
