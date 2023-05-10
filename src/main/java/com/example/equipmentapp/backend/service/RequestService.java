@@ -28,4 +28,12 @@ public class RequestService {
         }
         requestRepository.save(request);
     }
+
+    public List<Request> findAllOpened() {
+        return requestRepository.findRequestByCompletedIsFalse();
+    }
+
+    public List<Request> findAllCompleted() {
+        return requestRepository.findRequestByCompletedIsTrue();
+    }
 }

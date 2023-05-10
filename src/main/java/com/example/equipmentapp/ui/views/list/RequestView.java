@@ -9,6 +9,7 @@ import com.example.equipmentapp.ui.event.FormEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -24,19 +25,17 @@ public class RequestView extends VerticalLayout {
     private final RequestForm form;
     private final SecurityService securityService;
     private final RequestService requestService;
-    private final UserRepository userRepository;
 
-    private final Request request;
-
-    public RequestView(SecurityService securityService, RequestService requestService, UserRepository userRepository) {
+    public RequestView(SecurityService securityService,
+                       RequestService requestService,
+                       UserRepository userRepository) {
         this.securityService = securityService;
         this.requestService = requestService;
-        this.userRepository = userRepository;
         form = new RequestForm();
         form.addSaveListener(this::submitRequest);
         form.addCloseListener(e -> closeEditor());
 
-        request =  new Request();
+        Request request = new Request();
         request.setDescription(form.description.getValue());
         request.setDate(form.date.getValue());
         request.setUserId(userRepository.findByUsername(getCurrentUsername()));
@@ -53,14 +52,20 @@ public class RequestView extends VerticalLayout {
 
     public Component displayComponentByAuthority() {
         UserDetails details = securityService.getAuthenticatedUser();
+        H1 header;
+        Div content;
         if (details != null && details.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-            Div content = new Div(form);
+            header = new H1("Составить заявку");
+            content = new Div(header, form);
             content.addClassName("content");
             content.setSizeFull();
-
             return content;
         } else if (details != null && details.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            return new Text("Admin view");
+            header = new H1("Заявки");
+            content = new Div(header, new RequestTabs(requestService));
+            content.addClassName("content");
+            content.setSizeFull();
+            return content;
         }
         return new Text("Anonymous view");
     }

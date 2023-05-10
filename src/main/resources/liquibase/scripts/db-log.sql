@@ -120,3 +120,12 @@ alter table authorities
 alter table transaction
     alter column software_id drop not null;
 
+-- changeSet asorov:5
+alter table transaction
+    add column completed BOOLEAN DEFAULT FALSE;
+
+-- changeSet asorov:6
+alter table transaction
+    drop column completed;
+alter table requests
+    add completed BOOLEAN DEFAULT FALSE;
