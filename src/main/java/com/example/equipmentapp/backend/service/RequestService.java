@@ -36,4 +36,5 @@ public class RequestService {
     public List<Request> findAllCompleted() {
         return requestRepository.findRequestByCompletedIsTrue();
     }
+
 }
