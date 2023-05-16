@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u " +
             "where lower(u.username) like lower(concat('%', :searchText, '%') ) ")
     List<User> search(@Param("searchText") String filterText);
+
+    @Query("select u from User u where u.username=:username")
+    User findByUsername(@Param("username") String username);
 }

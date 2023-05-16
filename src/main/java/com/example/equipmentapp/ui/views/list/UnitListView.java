@@ -25,7 +25,7 @@ import java.util.List;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Units | EquipmentApp CRM")
-@RolesAllowed("ADMIN")
+@RolesAllowed({"ADMIN", "USER"})
 public class UnitListView extends VerticalLayout {
 
     private final UnitForm form;
@@ -77,9 +77,9 @@ public class UnitListView extends VerticalLayout {
         updateTransactionList();
         closeEditor();
     }
-
-    private void deleteUnit(FormEvent.DeleteEvent event) {
-        unitService.delete((Unit) event.getObject());
+    public void deleteUnit(FormEvent.DeleteEvent event) {
+        Unit unit = (Unit) event.getObject();
+        unitService.delete(unit);
         updateList();
         updateTransactionList();
         closeEditor();

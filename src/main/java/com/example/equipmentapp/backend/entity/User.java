@@ -30,6 +30,6 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employeeId;
-    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userId")
     private List<Request> requests;
 }

@@ -24,6 +24,8 @@ public class Request {
     private LocalDate date;
     @Column(name = "description")
     private String description;
+    @Column(name = "completed", columnDefinition = "boolean default false")
+    private Boolean completed = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

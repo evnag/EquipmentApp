@@ -50,6 +50,7 @@ public class MainLayout extends AppLayout {
         RouterLink officeListLink = new RouterLink("Кабинеты", OfficeListView.class);
         RouterLink categoryListLink = new RouterLink("Категории", CategoryListView.class);
         RouterLink userListLink = new RouterLink("Пользователи", UserListView.class);
+        RouterLink requestsLink = new RouterLink("Заявки", RequestView.class);
         RouterLink reportDesigner = new RouterLink("Отчеты", ReportDesignerView.class);
 
         unitListLink.setHighlightCondition(HighlightConditions.sameLocation());
@@ -59,6 +60,7 @@ public class MainLayout extends AppLayout {
                 officeListLink,
                 categoryListLink,
                 userListLink,
+                requestsLink,
                 reportDesigner
         ));
     }

@@ -13,5 +13,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("select t from Transaction t where t.unitId=:unitId")
     List<Transaction> findAllByUnitId(@Param("unitId") Long unitId);
 
-
 }
