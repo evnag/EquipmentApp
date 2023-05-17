@@ -37,7 +37,7 @@ public class SecurityService {
         String encryptedPasswordWithoutEncryptionType = encryptedPassword.substring(PAS_PREFIX_COUNT);
         boolean isLoggedIn = encoder.matches(password, encryptedPasswordWithoutEncryptionType);
         if (isLoggedIn) {
-            UI.getCurrent().getPage().setLocation(LOGIN_SUCCESS_URL);
+            UI.getCurrent().navigate(LOGIN_SUCCESS_URL);
         }
         return isLoggedIn;
     }
